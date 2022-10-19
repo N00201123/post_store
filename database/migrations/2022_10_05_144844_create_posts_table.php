@@ -17,7 +17,7 @@ return new class extends Migration
             $table->id();
             $table->string('title');
             $table->text('description');
-            $table->string('op');
+            $table->string('author');
             $table->string('date');
             $table->integer('likes');
             $table->timestamps();

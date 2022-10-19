@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Resources\PostCollection;
+use App\Http\Resources\PostResource;
 use App\Models\Post;
 use Illuminate\Http\Request;
 
@@ -26,7 +27,11 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $post = Post::create($request->only([
+            'title', 'description', 'author', 'date', 'likes'
+        ]));
+
+        return new PostResource($post);
     }
 
     /**

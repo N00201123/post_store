@@ -17,7 +17,7 @@ class PostCollection extends ResourceCollection
         return [
             'data' => $this->collection,
             'version' => '1.0.0',
-            'op' => 'Aaron Saula',
+            'author' => 'Aaron Saula',
         ];
     }
 }
