@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Resources\PostCollection;
-use App\Http\Resources\PostResource;
+use AppResponse;
 use App\Models\Post;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
+use App\Http\Resources\PostResource;
+use App\Http\Resources\PostCollection;
 
 class PostController extends Controller
 {
@@ -42,7 +44,7 @@ class PostController extends Controller
      */
     public function show(Post $post)
     {
-        //
+        return new PostResource($post);
     }
 
     /**
@@ -54,7 +56,11 @@ class PostController extends Controller
      */
     public function update(Request $request, Post $post)
     {
-        //
+        $post->update($request->only([
+            'title', 'description', 'author', 'date', 'likes'
+        ]));
+
+        return new PostResource($post);
     }
 
     /**
@@ -65,6 +71,7 @@ class PostController extends Controller
      */
     public function destroy(Post $post)
     {
-        //
+        $post->delete();
+        return response()->json(null, Response::HTTP_NO_CONTENT);
     }
 }
