@@ -42,6 +42,32 @@ class PostController extends Controller
     /**
      * Store a newly created resource in storage.
      *
+     * @OA\Post(
+     *      path="/api/posts",
+     *      operationId="store",
+     *      tags={"Posts"},
+     *      summary="Create a new Post",
+     *      description="Stores the post in the DB",
+     *      @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(
+     *            required={"title", "description", "author", "date", "likes"},
+     *            @OA\Property(property="title", type="string", format="string", example="Sample Title"),
+     *            @OA\Property(property="description", type="string", format="string", example="A long description about this great post"),
+     *            @OA\Property(property="author", type="string", format="string", example="Me"),
+     *            @OA\Property(property="date", type="date", format="date", example="2014-11-25"),
+     *             @OA\Property(property="likes", type="integer", format="integer", example="1")
+     *          )
+     *      ),
+     *     @OA\Response(
+     *          response=200, description="Success",
+     *          @OA\JsonContent(
+     *             @OA\Property(property="status", type="integer", example=""),
+     *             @OA\Property(property="data",type="object")
+     *          )
+     *     )
+     * )
+     *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
@@ -80,8 +106,29 @@ class PostController extends Controller
 
         return new PostResource($post);
     }
-
     /**
+     *
+     *
+     * @OA\Delete(
+     *    path="/api/posts/{id}",
+     *    operationId="destroy",
+     *    tags={"Posts"},
+     *    summary="Delete a Post",
+     *    description="Delete Post",
+     *    @OA\Parameter(name="id", in="path", description="Id of a Post", required=true,
+     *        @OA\Schema(type="integer")
+     *    ),
+     *    @OA\Response(
+     *         response=Response::HTTP_NO_CONTENT,
+     *         description="Success",
+     *         @OA\JsonContent(
+     *         @OA\Property(property="status_code", type="integer", example="204"),
+     *         @OA\Property(property="data",type="object")
+     *          ),
+     *       )
+     *      )
+     *  )
+
      * Remove the specified resource from storage.
      *
      * @param  \App\Models\Post  $post
