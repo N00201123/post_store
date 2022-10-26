@@ -14,6 +14,24 @@ class PostController extends Controller
     /**
      * Display a listing of the resource.
      *
+     * @OA\Get(
+     *     path="/api/posts",
+     *     description="Displays all the posts",
+     *     tags={"Posts"},
+     *      @OA\Response(
+        *          response=200,
+        *          description="Successful operation, Returns a list of Posts in JSON format"
+        *       ),
+        *      @OA\Response(
+        *          response=401,
+        *          description="Unauthenticated",
+        *      ),
+        *      @OA\Response(
+        *          response=403,
+        *          description="Forbidden"
+        *      )
+ * )
+     * 
      * @return \Illuminate\Http\Response
      */
     public function index()
