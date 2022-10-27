@@ -9,6 +9,7 @@ use Illuminate\Http\Response;
 use App\Http\Resources\PostResource;
 use App\Http\Resources\PostCollection;
 
+//Adding CRUD functionality in Swagger Documentation/Laravel
 class PostController extends Controller
 {
     /**
@@ -82,7 +83,31 @@ class PostController extends Controller
 
     /**
      * Display the specified resource.
-     *
+    * @OA\Get(
+    *     path="/api/posts/{id}",
+    *     description="Gets a post by ID",
+    *     tags={"Posts"},
+    *          @OA\Parameter(
+        *          name="id",
+        *          description="Post id",
+        *          required=true,
+        *          in="path",
+        *          @OA\Schema(
+        *              type="integer")
+     *          ),
+        *      @OA\Response(
+        *          response=200,
+        *          description="Successful operation"
+        *       ),
+        *      @OA\Response(
+        *          response=401,
+        *          description="Unauthenticated",
+        *      ),
+        *      @OA\Response(
+        *          response=403,
+        *          description="Forbidden"
+        *      )
+ * )
      * @param  \App\Models\Post  $post
      * @return \Illuminate\Http\Response
      */
@@ -134,7 +159,7 @@ class PostController extends Controller
      * @param  \App\Models\Post  $post
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Post $post)
+    public function destroy(Post $post) //this will delete a post off the databse
     {
         $post->delete();
         return response()->json(null, Response::HTTP_NO_CONTENT);
