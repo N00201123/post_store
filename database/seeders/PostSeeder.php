@@ -15,6 +15,7 @@ class PostSeeder extends Seeder
      */
     public function run()
     {
+        //this will make the same data 50 times
         Post::factory()->times(50)->create();
     }
 }
