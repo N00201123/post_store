@@ -2,8 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use AppResponse;
 use App\Models\Platform;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
+use App\Http\Resources\PlatformResource;
+use App\Http\Resources\PlatformCollection;
 
 class PlatformController extends Controller
 {
@@ -25,7 +29,12 @@ class PlatformController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $platform = Platform::create([
+            'name' => $request->name,
+            'description'=> $request->address
+        ]);
+
+        return new PlatformResource($platform);
     }
 
     /**
