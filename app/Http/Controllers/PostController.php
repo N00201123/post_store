@@ -37,7 +37,7 @@ class PostController extends Controller
      */
     public function index()
     {
-        return new PostCollection(Post::all());
+        return new PostCollection(Post::with('platform')->get());
     }
 
     /**
@@ -74,9 +74,15 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
-        $post = Post::create($request->only([
-            'title', 'description', 'author', 'date', 'likes'
-        ]));
+        $post = Post::create([
+            //'title', 'description', 'author', 'date', 'likes'
+            'title' => $request->title,
+            'description' => $request->description,
+            'author' => $request->author,
+            'date' => $request->date,
+            'likes' => $request->likes,
+            'platform_id' => $request->platform_id
+        ]);
 
         return new PostResource($post);
     }
@@ -124,10 +130,21 @@ class PostController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, Post $post)
-    {
+    {   
+        $post_image = $request->file('post_image');
+        $extension = $post_image->getClientOriginalExtension();
+
+        $filename = date('Y-m-d-His') . '_' . $request->input('title') . '.' . $extension;
+
+        $path = $post_image->storeAs('public/images', $filename);
+
         $post->update($request->only([
             'title', 'description', 'author', 'date', 'likes'
         ]));
+
+        $post->update([
+            'post_image' => $filename]
+        );
 
         return new PostResource($post);
     }

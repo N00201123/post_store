@@ -20,6 +20,10 @@ class PostResource extends JsonResource
             'title' => $this->title,
             'author' => $this->author,
             'likes' => $this->likes,
+            'post_image' => $this->post_image,
+            'platform_id' => $this->platform_id,
+            'platform_name' => $this->platform_name,
+            'platform_description' => $this->platform_description
         ];
     }
 }
