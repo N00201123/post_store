@@ -25,7 +25,7 @@ class StorePlatformRequest extends FormRequest
     {
         return [
             'name' => ['required'],
-            'address' => ['required']
+            'description' => ['required']
         ];
     }
 }

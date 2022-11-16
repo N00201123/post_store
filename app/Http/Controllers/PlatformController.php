@@ -8,6 +8,8 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use App\Http\Resources\PlatformResource;
 use App\Http\Resources\PlatformCollection;
+use App\Http\Requests\StorePlatformRequest;
+use App\Http\Requests\UpdatePlatformRequest;
 
 class PlatformController extends Controller
 {
@@ -31,7 +33,7 @@ class PlatformController extends Controller
     {
         $platform = Platform::create([
             'name' => $request->name,
-            'description'=> $request->address
+            'description'=> $request->description
         ]);
 
         return new PlatformResource($platform);
@@ -55,9 +57,9 @@ class PlatformController extends Controller
      * @param  \App\Models\Platform  $platform
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Platform $platform)
+    public function update(UpdatePlatformRequest $request, Platform $platform)
     {
-        //
+        $platform->update($request->all());
     }
 
     /**
