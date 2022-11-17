@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\PlatformController;
 use Illuminate\Http\Request;
@@ -20,6 +21,18 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::apiResource('/posts', PostController::class);
+Route::post('/auth/register', [AuthController::class, 'register']);
+Route::post('/auth/login', [AuthController::class, 'login']);
+
+Route::middleware('auth:sanctum')->group(function (){
+    Route::post('/auth/logout',[AuthController::class, 'logout']);
+    Route::get('/auth/user',[AuthController::class, 'user']);
+
+    // You need to be logged in for all post functionality except get all and get by id
+    Route::apiResource('posts', PostController::class)->except((['index', 'show']));
+});
+
+Route::get('/posts', [PostController::class, 'index']);
+Route::get('/posts/{post}', [PostController::class, 'show']);
 
 Route::apiResource('/platforms', PlatformController::class);
