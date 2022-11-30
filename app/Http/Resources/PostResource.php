@@ -14,6 +14,10 @@ class PostResource extends JsonResource
      */
     public function toArray($request)
     {
+        $tags = array();
+        foreach ($this->tags as $tag) {
+            array_push($tags, $tag->name);
+        }
         //this will return a certain amount of attributes
         return [
             'id' => $this->id,
@@ -23,7 +27,8 @@ class PostResource extends JsonResource
             'post_image' => $this->post_image,
             'platform_id' => $this->platform_id,
             'platform_name' => $this->platform_name,
-            'platform_description' => $this->platform_description
+            'platform_description' => $this->platform_description,
+            'tags' => $tags
         ];
     }
 }

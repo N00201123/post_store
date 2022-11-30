@@ -37,7 +37,9 @@ class PostController extends Controller
      */
     public function index()
     {
-        return new PostCollection(Post::with('platform')->get());
+        return new PostCollection(Post::with('platform')
+        ->with('tags')
+        ->get());
     }
 
     /**

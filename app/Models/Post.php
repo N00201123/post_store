@@ -14,6 +14,11 @@ class Post extends Model
     {
         return $this->belongsTo(Platform::class);
     }
+
+    public function tags() 
+    {
+        return $this->belongsToMany(Tag::class)->withTimestamps();
+    }
 }
 
 
