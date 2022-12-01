@@ -25,9 +25,9 @@ class PostResource extends JsonResource
             'author' => $this->author,
             'likes' => $this->likes,
             'post_image' => $this->post_image,
-            'platform_id' => $this->platform_id,
-            'platform_name' => $this->platform_name,
-            'platform_description' => $this->platform_description,
+            'platform_id' => $this->platform->id,
+            'platform_name' => $this->platform->name,
+            'platform_description' => $this->platform->description,
             'tags' => $tags
         ];
     }

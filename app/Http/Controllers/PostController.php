@@ -4,10 +4,12 @@ namespace App\Http\Controllers;
 
 use AppResponse;
 use App\Models\Post;
+use App\Models\Platform;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use App\Http\Resources\PostResource;
 use App\Http\Resources\PostCollection;
+use App\Http\Requests\StorePostRequest;
 
 //Adding CRUD functionality in Swagger Documentation/Laravel
 class PostController extends Controller
@@ -71,11 +73,18 @@ class PostController extends Controller
      *     )
      * )
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\StorePostRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StorePostRequest $request)
     {
+        $post_image = $request->file('post_image');
+        $extension = $post_image->getClientOriginalExtension();
+
+        $filename = date('Y-m-d-His') . '_' . $request->input('title') . '.' . $extension;
+
+        $path = $post_image->storeAs('public/images', $filename);
+
         $post = Post::create([
             //'title', 'description', 'author', 'date', 'likes'
             'title' => $request->title,
@@ -83,8 +92,12 @@ class PostController extends Controller
             'author' => $request->author,
             'date' => $request->date,
             'likes' => $request->likes,
-            'platform_id' => $request->platform_id
+            'platform_id' => $request->platform_id, 
+            'updated_at' => now(null), 
+            'created_at' => now(null)
         ]);
+
+        $post->tags()->attach($request->tags);
 
         return new PostResource($post);
     }

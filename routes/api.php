@@ -29,7 +29,7 @@ Route::middleware('auth:sanctum')->group(function (){
     Route::get('/auth/user',[AuthController::class, 'user']);
 
     // You need to be logged in for all post functionality except get all and get by id
-    Route::apiResource('posts', PostController::class)->except((['index', 'show']));
+    Route::apiResource('/posts', PostController::class)->except((['index', 'show']));
 });
 
 Route::get('/posts', [PostController::class, 'index']);
