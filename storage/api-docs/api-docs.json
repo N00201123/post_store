@@ -13,6 +13,154 @@
         "version": "2.0.0"
     },
     "paths": {
+        "/api/platforms": {
+            "get": {
+                "tags": [
+                    "Platforms"
+                ],
+                "summary": "Display a listing of the resource.",
+                "description": "Displays all the platforms",
+                "operationId": "caf905e7ed08db934a97ce99cab2ca17",
+                "responses": {
+                    "200": {
+                        "description": "Successful operation, Returns a list of Posts in JSON format"
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Platforms"
+                ],
+                "summary": "Create a new Platform",
+                "description": "Stores the platform in the DB",
+                "operationId": "storePlatform",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "name",
+                                    "description"
+                                ],
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "format": "string",
+                                        "example": "Sample Name"
+                                    },
+                                    "description": {
+                                        "type": "string",
+                                        "format": "string",
+                                        "example": "A long description about this great post"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "integer",
+                                            "example": ""
+                                        },
+                                        "data": {
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/platforms/{id}": {
+            "get": {
+                "tags": [
+                    "Platforms"
+                ],
+                "summary": "Display the specified resource.",
+                "description": "Gets a platform by ID",
+                "operationId": "00252b43bfb7d786058ffa496be2ccbe",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Platform id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation"
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Platforms"
+                ],
+                "summary": "Delete a Platform",
+                "description": "Delete Platform",
+                "operationId": "destroyPlatform",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Id of a Platform",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status_code": {
+                                            "type": "integer",
+                                            "example": "204"
+                                        },
+                                        "data": {
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/api/posts": {
             "get": {
                 "tags": [
