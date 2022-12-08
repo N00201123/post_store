@@ -18,8 +18,8 @@ return new class extends Migration
             $table->unsignedBigInteger('post_id');
             $table->unsignedBigInteger('tag_id');
 
-            $table->foreign('post_id')->references('id')->on('posts')->onUpdate('cascade')->onDelete('restrict');
-            $table->foreign('tag_id')->references('id')->on('tags')->onUpdate('cascade')->onDelete('restrict');
+            $table->foreign('post_id')->references('id')->on('posts')->onUpdate('cascade')->onDelete('cascade');
+            $table->foreign('tag_id')->references('id')->on('tags')->onUpdate('cascade')->onDelete('cascade');
             $table->timestamps();
         });
     }
@@ -32,9 +32,9 @@ return new class extends Migration
     public function down()
     {
         Schema::table('post_tag', function (Blueprint $table){
-            $table->dropForeign('tag_id');
+            $table->dropForeign(['tag_id']);
             $table->dropColumn('tag_id');
-            $table->dropForeign('post_id');
+            $table->dropForeign(['post_id']);
             $table->dropColumn('post_id');
             $table->drop();
         });

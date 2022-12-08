@@ -53,6 +53,7 @@ class PostController extends Controller
      *      tags={"Posts"},
      *      summary="Create a new Post",
      *      description="Stores the post in the DB",
+     *      security={{"bearerAuth":{}}},
      *      @OA\RequestBody(
      *         required=true,
      *         @OA\JsonContent(
@@ -61,7 +62,9 @@ class PostController extends Controller
      *            @OA\Property(property="description", type="string", format="string", example="A long description about this great post"),
      *            @OA\Property(property="author", type="string", format="string", example="Me"),
      *            @OA\Property(property="date", type="date", format="date", example="2014-11-25"),
-     *             @OA\Property(property="likes", type="integer", format="integer", example="1")
+     *            @OA\Property(property="likes", type="integer", format="integer", example="1"),
+     *            @OA\Property(property="platform_id", type="integer", format="integer", example="1"),
+     *            @OA\Property(property="tags", type="integer", format="integer", example="1")
      *          )
      *      ),
      *     @OA\Response(
@@ -78,12 +81,12 @@ class PostController extends Controller
      */
     public function store(StorePostRequest $request)
     {
-        $post_image = $request->file('post_image');
-        $extension = $post_image->getClientOriginalExtension();
+        // $post_image = $request->file('post_image');
+        // $extension = $post_image->getClientOriginalExtension();
 
-        $filename = date('Y-m-d-His') . '_' . $request->input('title') . '.' . $extension;
+        // $filename = date('Y-m-d-His') . '_' . $request->input('title') . '.' . $extension;
 
-        $path = $post_image->storeAs('public/images', $filename);
+        // $path = $post_image->storeAs('public/images', $filename);
 
         $post = Post::create([
             //'title', 'description', 'author', 'date', 'likes'
@@ -140,28 +143,61 @@ class PostController extends Controller
     /**
      * Update the specified resource in storage.
      *
+     * @OA\Put(
+     *      path="/api/posts/{id}",
+     *      operationId="update",
+     *      tags={"Posts"},
+     *      summary="Update a Post",
+     *      description="Updates the post in the DB",
+     *      security={{"bearerAuth":{}}},
+     *      @OA\Parameter(name="id", in="path", description="Id of a Post", required=true,
+     *      @OA\Schema(type="integer")
+     *    ),
+     *      @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(
+     *            required={"title", "description", "author", "date", "likes"},
+     *            @OA\Property(property="title", type="string", format="string", example="Sample Title"),
+     *            @OA\Property(property="description", type="string", format="string", example="A long description about this great post"),
+     *            @OA\Property(property="author", type="string", format="string", example="Me"),
+     *            @OA\Property(property="date", type="date", format="date", example="2014-11-25"),
+     *            @OA\Property(property="likes", type="integer", format="integer", example="1"),
+     *            @OA\Property(property="platform_id", type="integer", format="integer", example="1"),
+     *            @OA\Property(property="tags", type="integer", format="integer", example="1")
+     *          )
+     *      ),
+     *     @OA\Response(
+     *          response=200, description="Success",
+     *          @OA\JsonContent(
+     *             @OA\Property(property="status", type="integer", example=""),
+     *             @OA\Property(property="data",type="object")
+     *          )
+     *     )
+     * )
+     *
      * @param  \Illuminate\Http\Request  $request
      * @param  \App\Models\Post  $post
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, Post $post)
     {   
-        $post_image = $request->file('post_image');
-        $extension = $post_image->getClientOriginalExtension();
+        // $post_image = $request->file('post_image');
+        // $extension = $post_image->getClientOriginalExtension();
 
-        $filename = date('Y-m-d-His') . '_' . $request->input('title') . '.' . $extension;
+        // $filename = date('Y-m-d-His') . '_' . $request->input('title') . '.' . $extension;
 
-        $path = $post_image->storeAs('public/images', $filename);
+        // $path = $post_image->storeAs('public/images', $filename);
 
-        $post->update($request->only([
-            'title', 'description', 'author', 'date', 'likes'
-        ]));
+        // $post->update($request->only([
+        //     'title', 'description', 'author', 'date', 'likes'
+        // ]));
 
-        $post->update([
-            'post_image' => $filename]
-        );
+        // $post->update([
+        //     'post_image' => $filename]
+        // );
 
-        return new PostResource($post);
+        // return new PostResource($post);
+        $post->update($request->all());
     }
     /**
      *
@@ -172,6 +208,7 @@ class PostController extends Controller
      *    tags={"Posts"},
      *    summary="Delete a Post",
      *    description="Delete Post",
+     *    security={{"bearerAuth":{}}},
      *    @OA\Parameter(name="id", in="path", description="Id of a Post", required=true,
      *        @OA\Schema(type="integer")
      *    ),
@@ -193,6 +230,8 @@ class PostController extends Controller
      */
     public function destroy(Post $post) //this will delete a post off the databse
     {
+        // $post_tags = $post->tags()->where('post_id', $post->id)->get();
+        // dd($post_tags);
         $post->delete();
         return response()->json(null, Response::HTTP_NO_CONTENT);
     }

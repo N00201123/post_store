@@ -50,6 +50,7 @@ class PlatformController extends Controller
      *      tags={"Platforms"},
      *      summary="Create a new Platform",
      *      description="Stores the platform in the DB",
+     *      security={{"bearerAuth":{}}}, 
      *      @OA\RequestBody(
      *         required=true,
      *         @OA\JsonContent(
@@ -136,6 +137,7 @@ class PlatformController extends Controller
      *    tags={"Platforms"},
      *    summary="Delete a Platform",
      *    description="Delete Platform",
+     *    security={{"bearerAuth":{}}},
      *    @OA\Parameter(name="id", in="path", description="Id of a Platform", required=true,
      *        @OA\Schema(type="integer")
      *    ),

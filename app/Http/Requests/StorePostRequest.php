@@ -26,7 +26,6 @@ class StorePostRequest extends FormRequest
         return [
             'title' => ['required'],
             'description' => ['required'],
-            'post_image' =>['required'],
             'likes' =>['required'],
             'platform_id'=>['required'],
             'tags' =>['required', 'exists:tags,id']
